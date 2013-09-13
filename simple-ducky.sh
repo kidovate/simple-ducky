@@ -5699,7 +5699,7 @@ f_revshells(){
 		clear
 		echo -e "\e[1;34mShell Options. Note: Only use one...\e[0m"
 		echo ""
-		echo "1. DBD Reverse Shell (Best | Provides an encrypted persistant shell every 90 minutes)"
+		echo "1. DBD Reverse Shell (Best | Provides an encrypted persistant shell every 30 seconds)"
 		echo "2. Ncat Persistant Reverse Shell (Great | Provides a new shell everytime a user logs in)"
 		echo "3. Metasploit Executable (Good | Gets dinged by most AV | Meterpreter or Standard Shell)"
 		echo "4. No Download Reverse Shell (Great | Long build time)"
